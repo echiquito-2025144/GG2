@@ -71,7 +71,7 @@
 
 .main-content {
   flex: 1;
-  padding: 40px;
+  padding: 60px;
   display: flex;
   flex-direction: column;
 }
@@ -106,7 +106,7 @@
 .user-name {
   font-weight: 700;
   color: #000000;
-  font-size: 16px;
+  font-size: 14px;
 }
 
 .user-avatar {
@@ -137,12 +137,13 @@
 .card-header {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 10px;
   margin-bottom: 12px;
 }
 
 .card-title {
-  font-size: 18px;
+  font-size: 25px;
   font-weight: 700;
   color: #000000;
 }
@@ -168,7 +169,10 @@
   height: 20px;
 }
 
+/* Ajustes para las imágenes de los títulos */
 .kpi-icon {
-  width: 26px;
-  height: 26px;
+  width: 130px;  /* Ajusta este valor si las quieres aún más grandes (ej. 48px, 50px) */
+  height: 130px; /* Mantén el mismo valor que el width */
+  object-fit: contain;
+  vertical-align: middle;
 }
