@@ -1,0 +1,15 @@
+:root {
+  --nexus-azul-marino: #0B192C;
+  --nexus-azul-oscuro: #07101E;
+  --nexus-beige: #E2D8B3;
+  --nexus-beige-hover: #D4C89E;
+  --nexus-blanco: #FFFFFF;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--nexus-azul-oscuro);
+  color: var(--nexus-blanco);
+}
