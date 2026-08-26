@@ -9,8 +9,16 @@ import { Observable, tap } from 'rxjs';
 export class AuthService {
   private http = inject(HttpClient);
   private router = inject(Router);
-  private apiUrl = 'http://localhost:3000/api/auth'; // Cambia el puerto si tu backend usa otro
+  private apiUrl = 'http://localhost:3000/api/auth';
   private timerExpiracion: any;
+
+  constructor() {
+    // Al recargar la aplicación, restaurar el temporizador si ya hay un token guardado
+    const token = this.obtenerToken();
+    if (token) {
+      this.iniciarTemporizadorExpiracion(token);
+    }
+  }
 
   // 1. Método Login
   login(email: string, passwordPlana: string): Observable<any> {
@@ -45,21 +53,39 @@ export class AuthService {
   iniciarTemporizadorExpiracion(token: string): void {
     try {
       const payloadBase64 = token.split('.')[1];
-      const payload = JSON.parse(atob(payloadBase64));
+      if (!payloadBase64) return;
+
+      // Soporte UTF-8 correcto para caracteres especiales
+      const jsonPayload = decodeURIComponent(
+        atob(payloadBase64)
+          .split('')
+          .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
+          .join('')
+      );
+      
+      const payload = JSON.parse(jsonPayload);
+      if (!payload.exp) return;
+
       const tiempoRestanteMs = (payload.exp * 1000) - Date.now();
 
       if (this.timerExpiracion) clearTimeout(this.timerExpiracion);
 
       if (tiempoRestanteMs > 0) {
         console.log(`⏰ Sesión programada para expirar en ${Math.round(tiempoRestanteMs / 1000)}s.`);
+        
+        // Evitar desbordamiento de setTimeout (máximo ~24.8 días)
+        const maxDelay = 2147483647;
+        const delay = Math.min(tiempoRestanteMs, maxDelay);
+
         this.timerExpiracion = setTimeout(() => {
           this.logoutPorExpiracion();
-        }, tiempoRestanteMs);
+        }, delay);
       } else {
         this.logoutPorExpiracion();
       }
     } catch (error) {
-      console.error('Error al procesar tiempo del token:', error);
+      console.error('Error al procesar el token expirado:', error);
+      this.logoutPorExpiracion();
     }
   }
 
@@ -76,18 +102,24 @@ export class AuthService {
 
   // 7. Cierre de sesión manual
   logout(): void {
-    localStorage.removeItem('token');
-    localStorage.removeItem('usuario');
-    if (this.timerExpiracion) clearTimeout(this.timerExpiracion);
+    this.limpiarSesion();
     this.router.navigate(['/login']);
   }
 
-  
+  // 8. Cierre de sesión por expiración
   private logoutPorExpiracion(): void {
-    localStorage.removeItem('token');
-    localStorage.removeItem('usuario');
-    if (this.timerExpiracion) clearTimeout(this.timerExpiracion);
+    this.limpiarSesion();
     alert('Tu sesión ha expirado. Por favor, inicia sesión nuevamente.');
     this.router.navigate(['/login']);
+  }
+
+  // Helper privado para evitar duplicidad al borrar la sesión
+  private limpiarSesion(): void {
+    localStorage.removeItem('token');
+    localStorage.removeItem('usuario');
+    if (this.timerExpiracion) {
+      clearTimeout(this.timerExpiracion);
+      this.timerExpiracion = null;
+    }
   }
 }
