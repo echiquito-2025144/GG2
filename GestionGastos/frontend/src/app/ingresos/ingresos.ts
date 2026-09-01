@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { AuthService } from '../core/services/auth';
+import { FinanzasService } from '../core/services/finanzas.service';
 
 interface ItemGasto {
   concepto: string;
@@ -34,7 +35,10 @@ export class IngresosComponent implements OnInit {
     { concepto: '', monto: null }
   ];
 
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private finanzasService: FinanzasService
+  ) {}
 
   ngOnInit(): void {
     this.usuario = this.authService.obtenerUsuario();
@@ -45,17 +49,14 @@ export class IngresosComponent implements OnInit {
     const opciones: Intl.DateTimeFormatOptions = { day: '2-digit', month: '2-digit', year: 'numeric' };
     this.fechaHoy = new Date().toLocaleDateString('es-GT', opciones);
 
-    // Cargar ingreso previamente guardado en el navegador si existe
-    const ingresoGuardado = localStorage.getItem('ingresoMes');
-    if (ingresoGuardado !== null) {
-      this.ingresoMes = parseFloat(ingresoGuardado) || 0;
-    }
+    // Cargar ingreso desde el servicio central
+    this.ingresoMes = this.finanzasService.obtenerIngresoActual();
+    this.saldoActual = this.ingresoMes - this.gastosMes;
   }
 
-  // Método que se ejecuta cada vez que el usuario escribe un nuevo valor
   guardarIngreso(): void {
     if (this.ingresoMes !== null && this.ingresoMes >= 0) {
-      localStorage.setItem('ingresoMes', this.ingresoMes.toString());
+      this.finanzasService.actualizarIngreso(this.ingresoMes);
       this.saldoActual = this.ingresoMes - this.gastosMes;
     }
   }
