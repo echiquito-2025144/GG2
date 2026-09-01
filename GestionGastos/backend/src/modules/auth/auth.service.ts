@@ -22,7 +22,7 @@ export class AuthService {
     const token = jwt.sign(
       { id: usuario.id, email: usuario.email, rol: usuario.rol },
       secret,
-      { expiresIn: '20m' } // 👈 Expira en 20 minutos
+      { expiresIn: '2m' } //  Expira en 2 minutos
     );
 
     return {
@@ -57,7 +57,7 @@ export class AuthService {
     const token = jwt.sign(
       { id: nuevoUsuario.id, email: nuevoUsuario.email, rol: nuevoUsuario.rol },
       secret,
-      { expiresIn: '20m' } // 👈 Expira en 20 minutos
+      { expiresIn: '2m' } //  Expira en 2 minutos
     );
 
     return {
