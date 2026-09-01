@@ -1,0 +1,268 @@
+/* Layout Principal */
+.dashboard-layout {
+  display: flex;
+  min-height: 100vh;
+  background-color: #E2D8B3;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 260px;
+  background-color: #0B192C;
+  color: #FFFFFF;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+}
+
+.sidebar-header {
+  padding: 20px 15px;
+}
+
+.sidebar-logo {
+  width: 100%;
+  height: auto;
+}
+
+.sidebar-menu {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  padding: 10px 0;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 14px 25px;
+  color: #FFFFFF;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+
+.menu-item:hover, .menu-item.active {
+  background-color: #1E2E45;
+}
+
+.logout-btn {
+  background: none;
+  border: none;
+  width: 100%;
+  cursor: pointer;
+  text-align: left;
+}
+
+.svg-icon {
+  width: 20px;
+  height: 20px;
+}
+
+/* Main Content */
+.main-content {
+  flex: 1;
+  padding: 40px;
+}
+
+.content-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 25px;
+}
+
+.page-title {
+  font-size: 38px;
+  font-weight: 900;
+  margin: 0;
+  color: #000000;
+}
+
+.page-subtitle {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 5px 0 0 0;
+  color: #000000;
+}
+
+.user-profile {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.user-name {
+  font-size: 18px;
+  font-weight: 700;
+  color: #0B192C;
+}
+
+/* Banner Central */
+.instruction-banner {
+  background-color: #F8FAF9;
+  border-radius: 35px;
+  padding: 25px 40px;
+  max-width: 550px;
+  margin: 0 auto 35px auto;
+  text-align: left;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.instruction-banner h2 {
+  font-size: 28px;
+  font-weight: 900;
+  margin: 0;
+  color: #000000;
+  line-height: 1.2;
+}
+
+/* Grid Layout de la vista */
+.ingresos-grid {
+  display: flex;
+  gap: 40px;
+  align-items: flex-start;
+}
+
+/* Tarjeta KPI Izquierda */
+.kpi-ingresos-box {
+  flex: 1;
+  max-width: 300px;
+}
+
+.kpi-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.kpi-title {
+  font-size: 18px;
+  font-weight: 800;
+  color: #0B192C;
+}
+
+.kpi-graphic-icon {
+  width: 70px;
+  height: auto;
+}
+
+.kpi-blue-card {
+  background-color: #112866;
+  border-radius: 12px;
+  padding: 30px 20px;
+  text-align: center;
+}
+
+.currency-value {
+  color: #FFFFFF;
+  font-size: 36px;
+  font-weight: 900;
+}
+
+/* Contenedor dentro de la tarjeta azul */
+.card-input-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+/* Símbolo Q. grande y blanco */
+.currency-symbol {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+/* Estilo del input sin fondo ni bordes */
+.custom-ingreso-input {
+  background: transparent !important;
+  border: none !important;
+  outline: none !important;
+  color: #ffffff !important;
+  font-size: 2.2rem !important;
+  font-weight: 800 !important;
+  font-family: inherit;
+  width: 140px;
+  text-align: left;
+}
+
+/* Ocultar el recuadro/borde al hacer foco */
+.custom-ingreso-input:focus {
+  outline: none !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* Ocultar las flechitas por defecto de los inputs numéricos (Estándar moderno) */
+.custom-ingreso-input::-webkit-outer-spin-button,
+.custom-ingreso-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.custom-ingreso-input[type=number] {
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
+
+/* Tabla Derecha */
+.gastos-table-container {
+  flex: 2;
+  background-color: #ECECEC;
+  padding: 20px;
+  border-radius: 4px;
+  border: 2px solid #A855F7;
+}
+
+.table-pill-header {
+  background-color: #112866;
+  color: #FFFFFF;
+  text-align: center;
+  padding: 8px 0;
+  border-radius: 20px;
+  font-weight: 700;
+  font-size: 16px;
+  max-width: 320px;
+  margin: 0 auto 20px auto;
+}
+
+.gastos-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #FFFFFF;
+}
+
+.gastos-table th {
+  background-color: #112866;
+  color: #FFFFFF;
+  padding: 12px;
+  font-size: 15px;
+  font-weight: 700;
+  border: 1px solid #112866;
+}
+
+.gastos-table td {
+  border: 1px solid #E5E7EB;
+  padding: 0;
+}
+
+.table-input {
+  width: 100%;
+  border: none;
+  padding: 10px 12px;
+  font-size: 14px;
+  font-weight: 600;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.table-input::placeholder {
+  color: #374151;
+  font-weight: 700;
+}
