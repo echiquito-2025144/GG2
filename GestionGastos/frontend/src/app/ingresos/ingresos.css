@@ -146,9 +146,12 @@
   color: #0B192C;
 }
 
+/* Ajuste de tamaño para la imagen del gráfico */
+.kpi-icon,
 .kpi-graphic-icon {
-  width: 70px;
-  height: auto;
+  width: 55px;
+  height: 55px;
+  object-fit: contain;
 }
 
 .kpi-blue-card {

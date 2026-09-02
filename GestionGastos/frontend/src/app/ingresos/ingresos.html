@@ -70,10 +70,11 @@
 
     <div class="ingresos-grid">
       
+      <!-- Contenedor del KPI de Ingresos -->
       <div class="kpi-ingresos-box">
         <div class="kpi-header">
           <span class="kpi-title">Ingreso de este mes</span>
-          <img src="assets/grafica-ingresos.png" alt="Gráfica" class="kpi-graphic-icon">
+          <img src="ingresos.jpg" alt="ingreso de este mes" class="kpi-icon" />
         </div>
         <div class="kpi-blue-card card-input-wrapper">
           <span class="currency-symbol">Q.</span>
@@ -89,6 +90,7 @@
         </div>
       </div>
 
+      <!-- Tabla de Gastos -->
       <div class="gastos-table-container">
         <div class="table-pill-header">
           <span>Gastos del mes</span>
@@ -103,7 +105,6 @@
           </thead>
           <tbody>
             
-            <!-- Filas editables donde ingresas los datos -->
             <tr *ngFor="let gasto of listaGastos; let i = index">
               <td>
                 <input 
@@ -127,14 +128,12 @@
               </td>
             </tr>
 
-            <!-- Fila fija para agregar más filas -->
             <tr class="add-row-tr" (click)="agregarFila()">
               <td colspan="2" class="add-row-btn">
                 <strong>Agregar fila (+)</strong>
               </td>
             </tr>
 
-            <!-- Fila fija del cálculo total -->
             <tr class="total-row-tr">
               <td class="total-label">
                 <strong>Total a pagar</strong>
