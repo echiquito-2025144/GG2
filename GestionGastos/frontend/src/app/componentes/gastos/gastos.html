@@ -1,0 +1,59 @@
+<div class="card-container">
+  
+  <div class="card-title-badge">
+    Gastos del mes
+  </div>
+
+  <table class="gastos-table">
+    <thead>
+      <tr>
+        <th class="col-gastos">Gastos</th>
+        <th class="col-monto">Dinero a pagar</th>
+      </tr>
+    </thead>
+    <tbody>
+      
+      <!-- Filas dinámicas editables -->
+      <tr *ngFor="let gasto of gastos">
+        <td>
+          <input 
+            type="text" 
+            [(ngModel)]="gasto.concepto" 
+            placeholder="Ingrese datos" 
+            class="table-input bold-text"
+          />
+        </td>
+        <td class="monto-cell">
+          <span class="currency-label">Q.</span>
+          <input 
+            type="number" 
+            [(ngModel)]="gasto.monto" 
+            placeholder="0.00" 
+            step="0.01"
+            min="0"
+            class="table-input monto-input"
+          />
+        </td>
+      </tr>
+
+      <!-- Fila no editable: Agregar una fila (+) -->
+      <tr class="add-row-tr" (click)="agregarFila()">
+        <td colspan="2" class="add-row-btn">
+          <strong>Agregar fila (+)</strong>
+        </td>
+      </tr>
+
+      <!-- Fila resultado: Total a pagar -->
+      <tr class="total-row-tr">
+        <td class="total-label">
+          <strong>Total a pagar</strong>
+        </td>
+        <td class="total-value">
+          <strong>Q. {{ calcularTotal() | number:'1.2-2' }}</strong>
+        </td>
+      </tr>
+
+    </tbody>
+  </table>
+
+</div>

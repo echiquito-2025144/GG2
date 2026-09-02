@@ -75,7 +75,6 @@
           <span class="kpi-title">Ingreso de este mes</span>
           <img src="assets/grafica-ingresos.png" alt="Gráfica" class="kpi-graphic-icon">
         </div>
-        <!-- Clases ajustadas para vincular con las reglas transparentes de ingresos.css -->
         <div class="kpi-blue-card card-input-wrapper">
           <span class="currency-symbol">Q.</span>
           <input 
@@ -103,14 +102,48 @@
             </tr>
           </thead>
           <tbody>
+            
+            <!-- Filas editables donde ingresas los datos -->
             <tr *ngFor="let gasto of listaGastos; let i = index">
               <td>
-                <input type="text" [(ngModel)]="gasto.concepto" placeholder="Ingrese datos" class="table-input">
+                <input 
+                  type="text" 
+                  [(ngModel)]="gasto.concepto" 
+                  placeholder="Ingrese datos" 
+                  class="table-input bold-text"
+                />
               </td>
-              <td>
-                <input type="number" [(ngModel)]="gasto.monto" placeholder="Q.0.00" class="table-input">
+              <td class="monto-cell">
+                <span class="currency-label">Q.</span>
+                <input 
+                  type="number" 
+                  [(ngModel)]="gasto.monto" 
+                  (ngModelChange)="actualizarBalances()"
+                  placeholder="0.00" 
+                  step="0.01"
+                  min="0"
+                  class="table-input monto-input"
+                />
               </td>
             </tr>
+
+            <!-- Fila fija para agregar más filas -->
+            <tr class="add-row-tr" (click)="agregarFila()">
+              <td colspan="2" class="add-row-btn">
+                <strong>Agregar fila (+)</strong>
+              </td>
+            </tr>
+
+            <!-- Fila fija del cálculo total -->
+            <tr class="total-row-tr">
+              <td class="total-label">
+                <strong>Total a pagar</strong>
+              </td>
+              <td class="total-value">
+                <strong>Q. {{ calcularTotalGastos() | number:'1.2-2' }}</strong>
+              </td>
+            </tr>
+
           </tbody>
         </table>
       </div>

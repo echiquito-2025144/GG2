@@ -260,9 +260,80 @@
   font-weight: 600;
   outline: none;
   box-sizing: border-box;
+  background: transparent;
 }
 
 .table-input::placeholder {
   color: #374151;
   font-weight: 700;
+}
+
+/* ==========================================
+   Ajustes para las Celdas y Filas Especiales
+   ========================================== */
+
+.monto-cell {
+  display: flex;
+  align-items: center;
+  padding-left: 12px !important;
+}
+
+.currency-label {
+  font-weight: 700;
+  color: #374151;
+  margin-right: 2px;
+}
+
+.monto-input {
+  flex: 1;
+}
+
+/* Ocultar flechas numéricas de la tabla */
+.monto-input::-webkit-outer-spin-button,
+.monto-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.monto-input[type=number] {
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
+
+/* Fila interactiva Agregar Fila (+) */
+.add-row-tr {
+  cursor: pointer;
+  background-color: #ffffff;
+}
+
+.add-row-tr:hover {
+  background-color: #f3f4f6;
+}
+
+.add-row-tr td {
+  padding: 12px 16px !important;
+  color: #000000 !important;
+  text-align: left !important;
+  font-weight: 700 !important;
+  font-size: 14px;
+}
+
+/* Fila del Total a Pagar */
+.total-row-tr {
+  background-color: #ffffff;
+}
+
+.total-row-tr td {
+  padding: 12px 16px !important;
+  color: #000000 !important;
+  font-weight: 700 !important;
+  font-size: 14px;
+}
+
+.total-row-tr td:first-child {
+  text-align: left !important;
+}
+
+.total-row-tr td:last-child {
+  text-align: center !important;
 }

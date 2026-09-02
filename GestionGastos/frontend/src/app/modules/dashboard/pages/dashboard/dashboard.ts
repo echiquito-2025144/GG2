@@ -19,6 +19,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   usuario: any = null;
   private subIngreso!: Subscription;
+  private subGastos!: Subscription;
 
   // Valores dinámicos para las tarjetas KPI
   saldoActual: number = 0.00;
@@ -32,15 +33,27 @@ export class DashboardComponent implements OnInit, OnDestroy {
     // Suscripción en tiempo real al valor guardado de ingresoMes
     this.subIngreso = this.finanzasService.ingresoMes$.subscribe((monto) => {
       this.ingresoMes = monto;
-      // Recalcular saldo actual restando gastos
-      this.saldoActual = this.ingresoMes - this.gastosMes;
+      this.recalcularSaldo();
+    });
+
+    // Suscripción en tiempo real al valor guardado de gastosMes
+    this.subGastos = this.finanzasService.gastosMes$.subscribe((monto) => {
+      this.gastosMes = monto;
+      this.recalcularSaldo();
     });
   }
 
+  recalcularSaldo(): void {
+    this.saldoActual = this.ingresoMes - this.gastosMes;
+  }
+
   ngOnDestroy(): void {
-    // Limpieza de suscripción al destruir el componente
+    // Limpieza de suscripciones al destruir el componente
     if (this.subIngreso) {
       this.subIngreso.unsubscribe();
+    }
+    if (this.subGastos) {
+      this.subGastos.unsubscribe();
     }
   }
 
