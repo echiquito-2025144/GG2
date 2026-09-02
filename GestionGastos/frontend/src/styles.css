@@ -13,3 +13,24 @@ body {
   background-color: var(--nexus-azul-oscuro);
   color: var(--nexus-blanco);
 }
+
+
+/* Reducir el tamaño general de la ventana flotante */
+.sweet-popup-small {
+  border-radius: 12px !important;
+}
+
+.sweet-title-small {
+  font-size: 1.25rem !important;
+  margin-bottom: 0.5rem !important;
+}
+
+.sweet-text-small {
+  font-size: 0.9rem !important;
+}
+
+/* Hacer el ícono más pequeño */
+.swal2-icon {
+  transform: scale(0.75);
+  margin: 0.8em auto 0.4em !important;
+}

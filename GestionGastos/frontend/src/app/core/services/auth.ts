@@ -2,9 +2,10 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Observable, tap } from 'rxjs';
+import Swal from 'sweetalert2';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class AuthService {
   private http = inject(HttpClient);
@@ -13,7 +14,7 @@ export class AuthService {
   private timerExpiracion: any;
 
   constructor() {
-    // Al cargar el servicio, validar el token si ya existe en localStorage
+    // Al recargar la aplicación, restaurar el temporizador si ya hay un token guardado
     const token = this.obtenerToken();
     if (token) {
       this.iniciarTemporizadorExpiracion(token);
@@ -42,34 +43,38 @@ export class AuthService {
     );
   }
 
-  // 3. Guardar sesión en localStorage
+  // 3. Guardar sesión y activar temporizador de expiración
   guardarSesion(token: string, usuario: any): void {
     localStorage.setItem('token', token);
     localStorage.setItem('usuario', JSON.stringify(usuario));
     this.iniciarTemporizadorExpiracion(token);
   }
 
-  // 4. Temporizador de expiración automática para el JWT
+  // 4. Temporizador automático al vencer el JWT
   iniciarTemporizadorExpiracion(token: string): void {
     try {
       const payloadBase64 = token.split('.')[1];
       if (!payloadBase64) return;
 
+      // Soporte UTF-8 correcto para caracteres especiales
       const jsonPayload = decodeURIComponent(
         atob(payloadBase64)
           .split('')
           .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
           .join('')
       );
-
+      
       const payload = JSON.parse(jsonPayload);
       if (!payload.exp) return;
 
-      const tiempoRestanteMs = payload.exp * 1000 - Date.now();
+      const tiempoRestanteMs = (payload.exp * 1000) - Date.now();
 
       if (this.timerExpiracion) clearTimeout(this.timerExpiracion);
 
       if (tiempoRestanteMs > 0) {
+        console.log(`⏰ Sesión programada para expirar en ${Math.round(tiempoRestanteMs / 1000)}s.`);
+        
+        // Evitar desbordamiento de setTimeout (máximo ~24.8 días)
         const maxDelay = 2147483647;
         const delay = Math.min(tiempoRestanteMs, maxDelay);
 
@@ -102,14 +107,25 @@ export class AuthService {
     this.router.navigate(['/login']);
   }
 
-  // 8. Cierre de sesión automático por expiración
+  // 8. Cierre de sesión por expiración con Modal Personalizado
   private logoutPorExpiracion(): void {
     this.limpiarSesion();
-    alert('Tu sesión ha expirado. Por favor, inicia sesión nuevamente.');
-    this.router.navigate(['/login']);
+
+    Swal.fire({
+      title: 'Sesión Expirada',
+      text: 'Tu sesión ha expirado. Por favor, inicia sesión nuevamente.',
+      icon: 'warning',
+      confirmButtonText: 'Aceptar',
+      confirmButtonColor: '#0B192C',
+      background: '#ffffff',
+      color: '#0B192C',
+      heightAuto: false
+    }).then(() => {
+      this.router.navigate(['/login']);
+    });
   }
 
-  // Helper privado para borrar datos
+  // Helper privado para evitar duplicidad al borrar la sesión
   private limpiarSesion(): void {
     localStorage.removeItem('token');
     localStorage.removeItem('usuario');

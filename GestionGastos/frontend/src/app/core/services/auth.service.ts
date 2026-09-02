@@ -2,6 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Observable, tap } from 'rxjs';
+import Swal from 'sweetalert2';
 
 @Injectable({
   providedIn: 'root'
@@ -106,11 +107,29 @@ export class AuthService {
     this.router.navigate(['/login']);
   }
 
-  // 8. Cierre de sesión por expiración
+  // 8. Cierre de sesión por expiración con Modal Personalizado
   private logoutPorExpiracion(): void {
     this.limpiarSesion();
-    alert('Tu sesión ha expirado. Por favor, inicia sesión nuevamente.');
-    this.router.navigate(['/login']);
+
+    Swal.fire({
+      title: 'Sesión Expirada',
+      text: 'Tu sesión ha expirado. Por favor, inicia sesión nuevamente.',
+      icon: 'warning',
+      width: '380px', // Reduce el ancho del modal
+      padding: '1.2em', // Reduce el espacio interno
+      confirmButtonText: 'Aceptar',
+      confirmButtonColor: '#0B192C',
+      background: '#ffffff',
+      color: '#0B192C',
+      heightAuto: false,
+      customClass: {
+        popup: 'sweet-popup-small',
+        title: 'sweet-title-small',
+        htmlContainer: 'sweet-text-small'
+      }
+    }).then(() => {
+      this.router.navigate(['/login']);
+    });
   }
 
   // Helper privado para evitar duplicidad al borrar la sesión
